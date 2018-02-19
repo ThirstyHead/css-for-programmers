@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <!------------------------
   Step #4
-  Now let's tackle the browser
+  Now let's tackle the whole-browser
   scroll issue by adding a map-window.
 
   You can scroll the inner "base-layer"
   with your arrow keys, but notice what
   happens if you try to use your mouse
-  to scroll. (You probably are grabbing
-  an individual image instead of scrolling.)
+  to scroll. (You are grabbing an
+  individual image instead of scrolling.)
+
+  Also, note the appropriate use of
+  pixel-based sizing in base-layer
+  and viewport-based relatative sizing
+  in map-window.
  ------------------------>
 <html lang="en">
   <head>
@@ -25,7 +30,6 @@
       .base-layer{
         width: 2048px;
         height: 1024px;
-        /* NOTE: this removes the white area around each tile */
         font-size: 0;
       }
 

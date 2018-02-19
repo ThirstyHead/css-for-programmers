@@ -26,7 +26,6 @@
       .base-layer{
         width: 2048px;
         height: 1024px;
-        /* NOTE: this removes the white area around each tile */
         font-size: 0;
       }
 
@@ -42,8 +41,6 @@
     window.addEventListener('load', init);
 
     function init(){
-      // NOTE: for debugging, you might want to make this global
-      // window.map = new Map('.map-window');
       let map = new Map('.map-window');
     }
 
@@ -61,8 +58,8 @@
 
       mapMoveStart(event){
         event.preventDefault();
-        this.dragging=true;
-        this.original={
+        this.dragging = true;
+        this.original = {
           clientX: event.clientX,
           clientY: event.clientY
         };
@@ -79,7 +76,8 @@
       }
 
       mapMoveEnd(event){
-        this.dragging=false;
+        this.dragging = false;
+        this.original = undefined;
       }
     }
     </script>
