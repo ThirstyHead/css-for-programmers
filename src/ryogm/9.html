@@ -1,20 +1,13 @@
 <!DOCTYPE html>
 <!------------------------
-  Step #5
-  It's finally time to add
-  some JavaScript.
-
-  We need it to handle some
-  custom events for us --
-  namely, mouse events and
-  preventing default behavior.
-
-  NOTE: Touch events are coming
-  soon.
+  Step #9
+  Let's restrict the map
+  movement to the boundaries
+  of its parent container.
  ------------------------>
 <html lang="en">
   <head>
-    <title>5 - RYOGM</title>
+    <title>9 - RYOGM</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,
                                    initial-scale=1,
@@ -28,6 +21,10 @@
         width: 2048px;
         height: 1024px;
         font-size: 0;
+
+        position: relative;
+        top: 0px;
+        left: 0px;
       }
 
       .map-window{
@@ -36,6 +33,12 @@
         overflow: hidden;
         border: 1px solid black;
       }
+
+      .dragging {
+        cursor: -moz-grabbing;
+        cursor: -webkit-grabbing;
+        cursor: grabbing;
+      }
     </style>
 
     <script>
@@ -43,8 +46,6 @@
     window.addEventListener('load', init);
 
     function init(){
-      // NOTE: for debugging, you might want to make this global
-      // window.map = new Map('.map-window');
       let map = new Map('.map-window');
     }
 
@@ -52,20 +53,79 @@
       constructor(windowDiv){
         this.windowDiv = document.querySelector(windowDiv);
         this.baseLayer = this.windowDiv.querySelector('.base-layer');
+        this.dragging = false;
+        this.mouseStart = undefined;
+        this.mapStart = undefined;
+        this.mapWindow = undefined;
 
-        this.baseLayer.addEventListener('mousedown', this.mapMoveStart);
+        this.baseLayer.addEventListener('mousedown', event => this.mapMoveStart(event));
+        this.baseLayer.addEventListener('mousemove', event => this.mapMove(event));
+        this.baseLayer.addEventListener('mouseup', event => this.mapMoveEnd(event));
       }
 
       mapMoveStart(event){
         event.preventDefault();
+        this.dragging = true;
+        this.mouseStart = {
+          clientX: event.clientX,
+          clientY: event.clientY
+        };
+
+        let mapComputedStyle = window.getComputedStyle(this.baseLayer);
+        this.mapStart = {
+          left: Number.parseInt(mapComputedStyle.left, 10),
+          top: Number.parseInt(mapComputedStyle.top, 10),
+          width: Number.parseInt(mapComputedStyle.width, 10),
+          height: Number.parseInt(mapComputedStyle.height, 10)
+        }
+
+        let windowDivComputedStyle = window.getComputedStyle(this.windowDiv);
+        this.mapWindow = {
+          height: this.windowDiv.clientHeight,
+          width: this.windowDiv.clientWidth
+        }
+
+        this.baseLayer.classList.add('dragging');
+      }
+
+      mapMove(event){
+        if(this.dragging){
+          let deltaX = event.clientX - this.mouseStart.clientX;
+          let mapLeft = this.mapStart.left + deltaX;
+          let maxMapLeft = this.mapWindow.width - this.mapStart.width;
+          if(mapLeft > 0){
+            mapLeft = 0;
+          }else if(mapLeft < maxMapLeft){
+            mapLeft = maxMapLeft;
+          }
+
+          let deltaY = event.clientY - this.mouseStart.clientY;
+          let mapTop = this.mapStart.top + deltaY;
+          let maxMapTop = this.mapWindow.height - this.mapStart.height;
+          if(mapTop > 0){
+            mapTop = 0;
+          }else if(mapTop < maxMapTop){
+            mapTop = maxMapTop;
+          }
+
+          this.baseLayer.style.left = `${mapLeft}px`;
+          this.baseLayer.style.top = `${mapTop}px`;
+        }
+      }
+
+      mapMoveEnd(event){
+        this.dragging = false;
+        this.mouseStart = undefined;
+        this.mapStart = undefined;
+        this.mapWindow = undefined;
+        this.baseLayer.classList.remove('dragging');
       }
     }
-
     </script>
   </head>
   <body>
-    <h1>Roll Your Own Google Maps - 5</h1>
-    <p><a href="4.html">&prec; Previous</a> | <a href="6.html">Next &succ;</a></p>
+    <h1>Roll Your Own Google Maps - 9</h1>
+    <p><a href="7.html">&prec; Previous</a> | <a href="9.html">Next &succ;</a></p>
     <div class="map-window">
       <div class="base-layer">
         <img src="img/tiles/tile-0.jpg" alt="Earth Tile 0">
