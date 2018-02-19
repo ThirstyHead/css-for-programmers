@@ -1,19 +1,26 @@
 <!DOCTYPE html>
 <!------------------------
-  Step #7
-  We're actually less interested
-  in the absolute position of the mouse;
-  what we really need is the position
-  of the mouse RELATIVE to where the
-  map move started.
+  Step #8
+  Let's (finally!) move the
+  base-layer based on mouse
+  movements.
 
-  NOTE: You won't see the base-layer move,
-  but you should see mouse coordinates
-  in the console log.
+  Notice the two techniques
+  demonstrated here for setting
+  CSS values in JS:
+  1. Using .style for simple,
+     single values
+  2. Using classList.add() for
+     complex styles
+
+  NOTE: It is the combination
+  of relative positioning in
+  CSS + JS event handling
+  that makes this possible.
  ------------------------>
 <html lang="en">
   <head>
-    <title>7 - RYOGM</title>
+    <title>8 - RYOGM</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,
                                    initial-scale=1,
@@ -27,12 +34,23 @@
         width: 2048px;
         height: 1024px;
         font-size: 0;
+
+        /* NOTE: the position is relative to the parent container */
+        position: relative;
+        top: 0px;
+        left: 0px;
       }
 
       .map-window{
         width: 75vw;
         height: 50vh;
         overflow: hidden;
+      }
+
+      .dragging {
+        cursor: -moz-grabbing;
+        cursor: -webkit-grabbing;
+        cursor: grabbing;
       }
     </style>
 
@@ -50,6 +68,7 @@
         this.baseLayer = this.windowDiv.querySelector('.base-layer');
         this.dragging = false;
         this.mouseStart = undefined;
+        this.mapStart = undefined;
 
         this.baseLayer.addEventListener('mousedown', event => this.mapMoveStart(event));
         this.baseLayer.addEventListener('mousemove', event => this.mapMove(event));
@@ -63,28 +82,40 @@
           clientX: event.clientX,
           clientY: event.clientY
         };
+
+        let computedStyle = window.getComputedStyle(this.baseLayer);
+        this.mapStart = {
+          left: Number.parseInt(computedStyle.left, 10),
+          top: Number.parseInt(computedStyle.top, 10)
+        }
+
+        // NOTE: Change the cursor style while dragging
+        this.baseLayer.classList.add('dragging');
       }
 
       mapMove(event){
         if(this.dragging){
-          // NOTE: -x === drag left
-          //       +x === drag right
-          //       -y === drag up
-          //       +y === drag down
-          console.log(`x:${event.clientX - this.mouseStart.clientX} y:${event.clientY - this.mouseStart.clientY}`);
+          let deltaX = event.clientX - this.mouseStart.clientX;
+          let deltaY = event.clientY - this.mouseStart.clientY;
+
+          this.baseLayer.style.left = `${this.mapStart.left + deltaX}px`;
+          this.baseLayer.style.top = `${this.mapStart.top + deltaY}px`;
         }
       }
 
       mapMoveEnd(event){
         this.dragging = false;
         this.mouseStart = undefined;
+        this.mapStart = undefined;
+        // NOTE: Remove the custom cursor style when dragging is complete
+        this.baseLayer.classList.remove('dragging');
       }
     }
     </script>
   </head>
   <body>
-    <h1>Roll Your Own Google Maps - 7</h1>
-    <p><a href="6.html">&prec; Previous</a> | <a href="8.html">Next &succ;</a></p>
+    <h1>Roll Your Own Google Maps - 8</h1>
+    <p><a href="7.html">&prec; Previous</a> | <a href="9.html">Next &succ;</a></p>
     <div class="map-window">
       <div class="base-layer">
         <img src="img/tiles/tile-0.jpg" alt="Earth Tile 0">
