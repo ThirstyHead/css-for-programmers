@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<!------------------------
+  Step #7
+  We're actually less interested
+  in the absolute position of the mouse;
+  what we really need is the position
+  of the mouse RELATIVE to where the
+  map move started.
+
+  NOTE: You won't see the base-layer move,
+  but you should see mouse coordinates
+  in the console log.
+ ------------------------>
+<html lang="en">
+  <head>
+    <title>7 - RYOGM</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,
+                                   initial-scale=1,
+                                   user-scalable=yes">
+    <meta name="name" content="Scott Davis <scott@thirstyhead.com">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <style>
+      .base-layer{
+        width: 2048px;
+        height: 1024px;
+        font-size: 0;
+      }
+
+      .map-window{
+        width: 75vw;
+        height: 50vh;
+        overflow: hidden;
+        border: 1px solid black;
+      }
+    </style>
+
+    <script>
+    'use strict';
+    window.addEventListener('load', init);
+
+    function init(){
+      let map = new Map('.map-window');
+    }
+
+    class Map{
+      constructor(windowDiv){
+        this.windowDiv = document.querySelector(windowDiv);
+        this.baseLayer = this.windowDiv.querySelector('.base-layer');
+        this.dragging = false;
+        this.mouseStart = undefined;
+
+        this.baseLayer.addEventListener('mousedown', event => this.mapMoveStart(event));
+        this.baseLayer.addEventListener('mousemove', event => this.mapMove(event));
+        this.baseLayer.addEventListener('mouseup', event => this.mapMoveEnd(event));
+      }
+
+      mapMoveStart(event){
+        event.preventDefault();
+        this.dragging = true;
+        this.mouseStart = {
+          clientX: event.clientX,
+          clientY: event.clientY
+        };
+      }
+
+      mapMove(event){
+        if(this.dragging){
+          // NOTE: -x === drag left
+          //       +x === drag right
+          //       -y === drag up
+          //       +y === drag down
+          console.log(`x:${event.clientX - this.mouseStart.clientX} y:${event.clientY - this.mouseStart.clientY}`);
+        }
+      }
+
+      mapMoveEnd(event){
+        this.dragging = false;
+        this.mouseStart = undefined;
+      }
+    }
+    </script>
+  </head>
+  <body>
+    <h1>Roll Your Own Google Maps - 7</h1>
+    <p><a href="6.html">&prec; Previous</a> | <a href="8.html">Next &succ;</a></p>
+    <div class="map-window">
+      <div class="base-layer">
+        <img src="img/tiles/tile-0.jpg" alt="Earth Tile 0">
+        <img src="img/tiles/tile-1.jpg" alt="Earth Tile 1">
+        <img src="img/tiles/tile-2.jpg" alt="Earth Tile 2">
+        <img src="img/tiles/tile-3.jpg" alt="Earth Tile 3">
+        <img src="img/tiles/tile-4.jpg" alt="Earth Tile 4">
+        <img src="img/tiles/tile-5.jpg" alt="Earth Tile 5">
+        <img src="img/tiles/tile-6.jpg" alt="Earth Tile 6">
+        <img src="img/tiles/tile-7.jpg" alt="Earth Tile 7">
+        <img src="img/tiles/tile-8.jpg" alt="Earth Tile 8">
+        <img src="img/tiles/tile-9.jpg" alt="Earth Tile 9">
+        <img src="img/tiles/tile-10.jpg" alt="Earth Tile 10">
+        <img src="img/tiles/tile-11.jpg" alt="Earth Tile 11">
+        <img src="img/tiles/tile-12.jpg" alt="Earth Tile 12">
+        <img src="img/tiles/tile-13.jpg" alt="Earth Tile 13">
+        <img src="img/tiles/tile-14.jpg" alt="Earth Tile 14">
+        <img src="img/tiles/tile-15.jpg" alt="Earth Tile 15">
+        <img src="img/tiles/tile-16.jpg" alt="Earth Tile 16">
+        <img src="img/tiles/tile-17.jpg" alt="Earth Tile 17">
+        <img src="img/tiles/tile-18.jpg" alt="Earth Tile 18">
+        <img src="img/tiles/tile-19.jpg" alt="Earth Tile 19">
+        <img src="img/tiles/tile-20.jpg" alt="Earth Tile 20">
+        <img src="img/tiles/tile-21.jpg" alt="Earth Tile 21">
+        <img src="img/tiles/tile-22.jpg" alt="Earth Tile 22">
+        <img src="img/tiles/tile-23.jpg" alt="Earth Tile 23">
+        <img src="img/tiles/tile-24.jpg" alt="Earth Tile 24">
+        <img src="img/tiles/tile-25.jpg" alt="Earth Tile 25">
+        <img src="img/tiles/tile-26.jpg" alt="Earth Tile 26">
+        <img src="img/tiles/tile-27.jpg" alt="Earth Tile 27">
+        <img src="img/tiles/tile-28.jpg" alt="Earth Tile 28">
+        <img src="img/tiles/tile-29.jpg" alt="Earth Tile 29">
+        <img src="img/tiles/tile-30.jpg" alt="Earth Tile 30">
+        <img src="img/tiles/tile-31.jpg" alt="Earth Tile 31">
+      </div>
+    </div>
+
+
+  </body>
+</html>

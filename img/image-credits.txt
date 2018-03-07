@@ -1,0 +1,19 @@
+title
+https://en.wikipedia.org/wiki/Blueprint#/media/File:Joy_Oil_gas_station_blueprints.jpg
+
+
+
+blue marble home page
+https://visibleearth.nasa.gov/view_cat.php?categoryID=1484
+
+blue marble land ocean ice
+https://visibleearth.nasa.gov/view.php?id=57730
+
+tessellation
+https://en.wikipedia.org/wiki/Tessellation_(computer_graphics)
+
+can i use touch/pointer events
+https://caniuse.com/#search=events
+
+touch and mouse
+https://www.html5rocks.com/en/mobile/touchandmouse/

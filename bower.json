@@ -1,0 +1,21 @@
+{
+  "name": "css-for-programmers",
+  "homepage": "https://github.com/ThirstyHead/css-for-programmers",
+  "authors": [
+    "Scott Davis <scott@thirstyhead.com>"
+  ],
+  "description": "[PRESENTATION] CSS for Programmers",
+  "version": "0.1.0",
+  "main": "index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "talk-o-vision": "thirstyhead/talk-o-vision#^0.5.0"
+  }
+}
